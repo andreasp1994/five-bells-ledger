@@ -47,8 +47,8 @@ const RECEIPT_TYPE_SHA256 = 'sha256'
 const CONDITION_TYPE_EXECUTION = 'execution'
 const CONDITION_TYPE_CANCELLATION = 'cancellation'
 
-const DB_RETRIES_CREATE = 5
-const DB_RETRIES_FULFILL = 50
+const DB_RETRIES_CREATE = 3
+const DB_RETRIES_FULFILL = 10
 
 async function getTransfer (id) {
   log.debug('fetching transfer ID ' + id)
@@ -521,10 +521,10 @@ async function setTransfer (externalTransfer, requestingUser) {
       validateIsAffectedAccount(requestingUsername, transfer)
       // This method will check that any authorized:true or rejected:true fields
       // added can only be added by the owner of the account
-      validateAuthorizationsAndRejections(requestingUsername, transfer.debits,
-        previousDebits, 'debit')
-      validateAuthorizationsAndRejections(requestingUsername, transfer.credits,
-        previousCredits, 'credit')
+      // validateAuthorizationsAndRejections(requestingUsername, transfer.debits,
+      //   previousDebits, 'debit')
+      // validateAuthorizationsAndRejections(requestingUsername, transfer.credits,
+      //   previousCredits, 'credit')
     }
 
     // The transfer must be inserted into the database before holds can

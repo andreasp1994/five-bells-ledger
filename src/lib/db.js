@@ -51,13 +51,16 @@ function withSerializableTransaction (callback, retries = DEFAULT_DB_RETRIES) {
         log.debug('retrying database query', `${attemptNo}/${retries}`, err)
         err.isDbRetry = true
         return retry(err)
+      } else {
+        log.debug('DB Error: ', err)
       }
       throw err
     })
   }, {
-    minTimeout: 1, // 1000 microseconds
-    factor: 1,
-    retries
+    minTimeout: 10, // 1000 microseconds
+    factor: 1.2,
+    retries,
+    randomize: true
   })
 }
 
